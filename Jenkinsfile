@@ -7,12 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/YOUR_USERNAME/secure-health-app.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
@@ -43,7 +37,6 @@ pipeline {
             steps {
                 sh '''
                 echo "🔐 Running Trivy scan..."
-
                 trivy image --severity HIGH,CRITICAL $IMAGE || true
                 '''
             }
@@ -52,8 +45,6 @@ pipeline {
         stage('Deploy Secure App') {
             steps {
                 sh '''
-                echo "🚀 Deploying secure-health-app..."
-
                 docker stop secure-health || true
                 docker rm secure-health || true
 
@@ -70,7 +61,7 @@ pipeline {
             echo "✅ DevSecOps Pipeline Completed Successfully!"
         }
         failure {
-            echo "❌ Pipeline Failed! Check security or deployment issues."
+            echo "❌ Pipeline Failed!"
         }
     }
 }
