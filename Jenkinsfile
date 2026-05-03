@@ -7,19 +7,13 @@ pipeline {
 
     stages {
 
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
         stage('Basic Security Check') {
             steps {
                 sh '''
                 echo "🔍 Checking for hardcoded secrets..."
 
                 if grep -r "password" .; then
-                    echo "⚠️ Warning: Possible hardcoded secret found!"
+                    echo "⚠️ Warning: Possible secret found!"
                 else
                     echo "✅ No obvious secrets found"
                 fi
